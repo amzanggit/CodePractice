@@ -1,0 +1,62 @@
+class Solution {
+    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+        Stack stack1 = new Stack();
+        Stack stack2 = new Stack();
+        while (l1 != null) {
+            stack1.push(l1.val);
+            l1 = l1.next;
+        }
+        while (l2 != null) {
+            stack2.push(l2.val);
+            l2 = l2.next;
+        }
+
+        ListNode list = null; // end of LinkedList is always null, do not forget 
+        boolean sign = false;
+        while (!stack1.isEmpty() || !stack2.isEmpty()) {
+            int sum = 0;
+            if(!stack1.empty()){
+                Integer val1 = (int) stack1.pop();
+                sum += val1;
+            }
+            if(!stack2.empty()){
+                Integer val2 = (int) stack2.pop();
+                sum += val2;
+            }
+            if (sign) {
+                sum += 1;
+            }
+            if (sum >= 10) {
+                sign = true;
+            } else {
+                sign = false;
+            }
+            ListNode head  = new ListNode(sum % 10);
+            head.next = list;
+            list = head;
+        }
+
+        // handle 91 + 18 case, need to create another node
+        if (sign) {
+            ListNode newHead = new ListNode(1);
+            newHead.next = list;
+            list = newHead;
+        }
+        return list;
+    }
+
+    public static void main (String args[]) {
+        LinkedList<Integer> one = new LinkedList<Integer>();
+        one.add('7');
+        one.add('2');
+        one.add('4');
+        one.add('3');
+
+        LinkedList<Integer> two = new LinkedList<Integer>();
+        one.add('4');
+        one.add('6');
+        one.add('5');
+
+        System.out.println(addTwoNumbers(one, two));
+    }
+}
